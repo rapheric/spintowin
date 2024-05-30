@@ -41,10 +41,10 @@ interface DiamondProps {
     height: number;
 }
 
-interface RandomNuberOccurrences {
-    randomNumber: number;
-    occurrence: number;
-}
+// interface RandomNuberOccurrences {
+//     randomNumber: number;
+//     occurrence: number;
+// }
 
 
 
@@ -56,17 +56,16 @@ const Card: React.FC =() => {
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [randomNumber, setRandomNumber] = useState<number | null>(null);
     const [result, setResult] = useState<'win' | 'lose' | null>(null);
-    const [undoStack, setUndoStack] = useState<PlacedBet[]>([]);
     const [placedBets, setPlacedBets] = useState<PlacedBet[]>([])
     const [previousPlacedBets, setPreviousPlacedBets] = useState<PlacedBet[]>([])
     const [openOption, setOpenOption] = useState<boolean>(false);
-    const [creditOpenOption, setCreditOpenOption] = useState<boolean>(false);
+    // const [creditOpenOption, setCreditOpenOption] = useState<boolean>(false);
     const [spinning, setSpinning] = useState(false);
     const [generatedRandomNumbers, setGeneratedRandomNumbers] = useState<number[]>([]);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
     const [currentNumber, setCurrentNumber] = useState<number | null>(null);
     const [generatedNumber, setGeneratedNumber] = useState<number | null>(null);
-    // const [isSpinning, setIsSpinning] = useState(false);
+    const [wonOpenOption , setWonOpenOption] = useState<boolean>(false);
 
     const handleSelectOption = (option: string) => {
         setSelectedOption(option);
@@ -104,14 +103,15 @@ const Card: React.FC =() => {
           setCurrentNumber(generatedNumber);
         }
 
-        setCurrentNumber(randomNumber);
+        // setCurrentNumber(randomNumber);
+        // setGeneratedNumber(randomNumber)
     
         return () => {
           if (intervalRef.current) {
             clearInterval(intervalRef.current);
           }
         };
-      }, [spinning, generatedNumber]);
+      }, [spinning, randomNumber,generatedNumber]);
     
 
     const handleSpin = () => {
@@ -123,17 +123,30 @@ const Card: React.FC =() => {
         
         
         setTimeout(() => {
-         setRandomNumber(randomNumber);
+         
+            setSpinning(false);
+            setRandomNumber(randomNumber);
+            setOpenOption(false);
+            // setWonOpenOption(true);
         setGeneratedRandomNumbers([...generatedRandomNumbers, randomNumber]);
         //resetRandomNumberOccurrences();
-        setPreviousPlacedBets(placedBets.slice())
-            setSpinning(false);
-            setOpenOption(false);
+        setPreviousPlacedBets(placedBets.slice())   
         }, 10000);
+       
 
         let hasWon = false;
         let payoutAmount = 0;
         switch (randomNumber) {
+            case 0:
+                hasWon = placedBets.findIndex(x => x.Option === 'zero') !== -1;
+            if (hasWon) {
+                payoutAmount = placedBets.filter(x => x.Option === 'zero')
+                    .map(c => c.BetAmount * getOptionOdd(c.Option))
+                    .reduce((sum, current) => sum + current);
+                setPayOutAmount(payoutAmount)
+
+            }
+            break;
             case 1:
                 hasWon = placedBets.findIndex(x => x.Option === '1' || x.Option === 'odd' ||
                     x.Option === 'low' || x.Option === 'red' || x.Option === 'range12') !== -1;
@@ -576,6 +589,16 @@ const Card: React.FC =() => {
         setResult(hasWon ? 'win' : 'lose');
     };
 
+    
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setWonOpenOption(true);
+    }, 12000);
+
+
+    return () => clearTimeout(timeoutId);
+  }, []); 
+
 
     const setPlacedAmont = () => {
         let amount = 0;
@@ -652,19 +675,19 @@ const Card: React.FC =() => {
     const getBlinkState = (s: string) => {
         let hasWon = false;
         switch (randomNumber) {
+            case 0: 
+            hasWon = (s === 'zero');
+            break;
             case 1:
-                hasWon = (s === '1' || s === 'odd' ||
-                    s === 'low' || s === 'red' || s === 'range12');
+                hasWon = (s === '1' || s === 'odd' || s === 'low' || s === 'red' || s === 'range12');
 
                 break;
             case 2:
-                hasWon = (s === '2' || s === 'even' ||
-                    s === 'black' || s === 'range12' || s === 'low');
+                hasWon = (s === '2' || s === 'even' ||   s === 'black' || s === 'range12' || s === 'low');
                 break;
 
             case 3:
-                hasWon = (s === '3' || s === 'odd' ||
-                    s === 'red' || s === 'range12' || s === 'low');
+                hasWon = (s === '3' || s === 'odd' ||  s === 'red' || s === 'range12' || s === 'low');
                 break;
 
             case 4:
@@ -673,33 +696,27 @@ const Card: React.FC =() => {
                 break;
 
             case 5:
-                hasWon = (s === '2' || s === 'odd' ||
-                    s === 'red' || s === 'range12' || s === 'low');
+                hasWon = (s === '5' || s === 'odd' ||   s === 'red' || s === 'range12' || s === 'low');
                 break;
 
             case 6:
-                hasWon = (s === '6' || s === 'even' ||
-                    s === 'black' || s === 'range12' || s === 'low');
+                hasWon = (s === '6' || s === 'even' ||  s === 'black' || s === 'range12' || s === 'low');
                 break;
 
             case 7:
-                hasWon = (s === '7' || s === 'odd' ||
-                    s === 'red' || s === 'range12' || s === 'low');
+                hasWon = (s === '7' || s === 'odd' ||  s === 'red' || s === 'range12' || s === 'low');
                 break;
 
             case 8:
-                hasWon = (s === '8' || s === 'even' ||
-                    s === 'black' || s === 'range12' || s === 'low');
+                hasWon = (s === '8' || s === 'even' || s === 'black' || s === 'range12' || s === 'low');
                 break;
 
             case 9:
-                hasWon = (s === '9' || s === 'odd' ||
-                    s === 'red' || s === 'range12' || s === 'low');
+                hasWon = (s === '9' || s === 'odd' || s === 'red' || s === 'range12' || s === 'low');
                 break;
 
             case 10:
-                hasWon = (s === '10' || s === 'even' ||
-                    s === 'black' || s === 'range12' || s === 'low');
+                hasWon = (s === '10' || s === 'even' ||  s === 'black' || s === 'range12' || s === 'low');
                 break;
 
             case 11:
@@ -840,6 +857,7 @@ const Card: React.FC =() => {
 
     const handleSelected = (option: string) => {
         handleSelectOption(option)
+        setSelectedOption(selectedOption)
         placedBets.push({
             Option: option,
             BetAmount: betAmount
@@ -854,11 +872,10 @@ const Card: React.FC =() => {
         setPlacedBetAmount(0)
         setBetAmount(10)
         setPlacedBets([])
-        setUndoStack([])
         setResult(null)
         setOpenOption(false)
-        setCreditOpenOption(false)
         setPayOutAmount(0)
+        // setGeneratedRandomNumbers([])
     };
 
     const handleDouble = () => {
@@ -870,7 +887,7 @@ const Card: React.FC =() => {
 
     const undo = () => {
         if (placedBets.length > 0) {
-            let removed = placedBets.pop() as PlacedBet;
+             placedBets.pop() as PlacedBet;
             setPlacedAmont();
         }
 
@@ -885,6 +902,9 @@ const Card: React.FC =() => {
 
         setPlacedAmont();
     };
+    // const handleWonOpen = () =>{
+    //     setWonOpenOption(!wonOpenOption)
+    // }
     return (
         <>
             < Navbar generatedRandomNumbers={generatedRandomNumbers} 
@@ -899,7 +919,7 @@ const Card: React.FC =() => {
                             <ZeroItem blink={getBlinkState('zero')} onClick={() => handleSelected('zero')}
                                 onMouseLeave={() => handleMouseOverOrLeave('')}
                                 onMouseOver={() => handleMouseOverOrLeave('zero')} >
-                                {(mouseOverOption === 'zero') && (<ImageH src={getMouseOverImage()} />)}
+                                {(mouseOverOption === 'zero') && (<PopImgZ src={getMouseOverImage()} />)}
                                 {(randomNumber !== null && randomNumber === 0) ? (<ImageWin src={imageUrlWin} />) :
                                     (placedBets.findIndex(x => x.Option === '0') !== -1) ?
                                         (<Image src={getDisplayImage('0')} />) :
@@ -907,7 +927,6 @@ const Card: React.FC =() => {
                             </ZeroItem>
                      </ContDivL>
                       
-
                     <CardContainer>
                        
                             <ContDiv>
@@ -1207,21 +1226,21 @@ const Card: React.FC =() => {
                                 <ListItems blink={getBlinkState('range12')} onClick={() => handleSelected('range12')}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('range12')}>
-                                    {(mouseOverOption === 'range12') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(mouseOverOption === 'range12') && (<PopImg src={getMouseOverImage()} />)}
                                     {(placedBets.findIndex(x => x.Option === 'range12') !== -1) ?
-                                        (<Image src={getDisplayImage('range12')} />) : ''}
+                                        (<Image src={getDisplayImage('range12')} />) : '1 ~ 12'}
                                 </ListItems>
                                 <ListItems blink={getBlinkState('range1324')} onClick={() => handleSelected('range1324')}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('range1324')}>
-                                    {(mouseOverOption === 'range1324') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(mouseOverOption === 'range1324') && (<PopImg src={getMouseOverImage()} />)}
                                     {(placedBets.findIndex(x => x.Option === 'range1324') !== -1) ?
                                         (<Image src={getDisplayImage('range1324')} />) : '13 ~ 24'}
                                 </ListItems>
                                 <ListItems blink={getBlinkState('range2536')} onClick={() => handleSelected('range2536')}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('range2536')}>
-                                    {(mouseOverOption === 'range2536') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(mouseOverOption === 'range2536') && (<PopImg src={getMouseOverImage()} />)}
                                     {(placedBets.findIndex(x => x.Option === 'range2536') !== -1) ?
                                         (<Image src={getDisplayImage('range2536')} />) : '25 ~ 36'}
                                 </ListItems>
@@ -1273,19 +1292,21 @@ const Card: React.FC =() => {
                     </Top>
                     <ContDivR>
                     <ButtonContainer>
-                            <StyledButton onClick={rebet}><FontAwesomeIcon icon={faArrowRotateRight} /></StyledButton>
-                            <StyledButton onClick={() => handleDouble()}>x2</StyledButton>
-                            <StyledButton onClick={undo}><FontAwesomeIcon icon={faRotateLeft} /></StyledButton>
-                            <StyledButton onClick={deleteSelected}><FontAwesomeIcon icon={faTrashCan} /></StyledButton>
+                            <StyledButton onClick={rebet} disabled={placedBets.length>0}><FontAwesomeIcon icon={faArrowRotateRight} /></StyledButton>
+                            <StyledButton onClick={() => handleDouble()}  disabled={placedBets.length===0}>x2</StyledButton>
+                            <StyledButton onClick={undo}  disabled={placedBets.length===0}><FontAwesomeIcon icon={faRotateLeft}  /></StyledButton>
+                            <StyledButton onClick={deleteSelected}  disabled={placedBets.length===0}><FontAwesomeIcon icon={faTrashCan} /></StyledButton>
                         </ButtonContainer>
                     </ContDivR>
                     </Wrap>
 
                  <FooterContainer>
                         <Stake>
-                          <StakeBalance onClick={() => setCreditOpenOption(!creditOpenOption)}>
+                          <StakeBalance>
                               <BalanceTitle >CREDIT</BalanceTitle>
-                             <BalanceAmount>{currentNumber !== null ? currentNumber : randomNumber}</BalanceAmount>
+                             <BalanceAmount >     
+                               
+                           </BalanceAmount>
                           </StakeBalance>
                            <StakeBalance>
                                 <BalanceTitle>TOTAL BET</BalanceTitle>
@@ -1326,15 +1347,25 @@ const Card: React.FC =() => {
                                  </OuterDiv>
                              <ButtonDiv>
                                  <Button onClick={handleSpin} disabled={spinning}>
+                           
                                  <FontAwesomeIcon icon={faPlay} />
                                  </Button>
                              </ButtonDiv>
                          </RightDiv>
                      </FooterContainer>
-                     {
-                        openOption &&
-                        result==='win'? <Won>You Won</Won>:<div></div>
-                     }
+
+                 { <div>
+                   {    result==='win'?
+                        wonOpenOption &&
+                      
+                        <Won>
+                            <h1>You Won</h1> <br/>
+                           <h1>Ksh{payoutAmount}</h1>
+                        </Won> :<div></div>
+                    }     
+                </div> }
+                 
+                
   </>
    )
 }
@@ -1348,20 +1379,11 @@ display:flex;
 const ContDivLL = styled.div`
 display:flex;
 gap:0px;
-
 `
 const ContDivL = styled.div`
-// display:flex;
-// flex-direction:column;
-// gap:60px;
  margin-left:120px;
-//  margin-right:10px;
-
 `
 const ContDivR = styled.div`
-// display:flex;
-// flex-direction:column;
-// gap:40px;
 `
 const Wrap = styled.div`
 display:flex;
@@ -1389,7 +1411,22 @@ position:absolute;
 right:-20%;
 bottom:-20%;
 z-index:2;
-
+`
+const PopImg = styled.img`
+width:30px;
+ height:30px;
+position:absolute;
+right:-5%;
+bottom:-20%;
+z-index:2;
+`
+const PopImgZ = styled.img`
+width:30px;
+ height:30px;
+position:absolute;
+right:-5%;
+bottom:-5%;
+z-index:2;
 `
 const ImageLion = styled.img`
  object-repeat:no-repeat;
@@ -1734,21 +1771,37 @@ const ButtonDiv = styled.div`
     // padding-right: 10px;
     width:190px;
 `
+// const GenRan = styled.div`
+// width:23px;
+// height:23px;
+// padding:3px;
+// color:white;
+// font-size:16px;
+// font-weight:500;
+// display:flex;
+// justify-content:center;
+// align-items:center;
+// border-radius:5px;
+// margin-right:3px; 
+// `
 
-const Won = styled.div`
-        
+const Won = styled.div`       
         width: 380px;
         height: 380px;
         margin:1em auto;
         // border: 2px solid whitesmoke;
-        background-color:light-green;
+        background-color:#90EE90;
         padding: 0;
         color:white;
+        display:flex;
+        align-items:center;
+        flex-direction:column;
+        justify-content:center;
         border-radius: 50%;
         overflow: hidden;     
         position:absolute;
-        top:16%;s
-        left:34%;
+        top:14%;
+        left:26%;
         z-index:2;
 `;
 export default Card
