@@ -56,8 +56,8 @@ const Card: React.FC =() => {
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [randomNumber, setRandomNumber] = useState<number | null>(null);
     const [result, setResult] = useState<'win' | 'lose' | null>(null);
-    const [placedBets, setPlacedBets] = useState<PlacedBet[]>([])
-    const [previousPlacedBets, setPreviousPlacedBets] = useState<PlacedBet[]>([])
+    const [placedBets, setPlacedBets] = useState<PlacedBet[]>([]);
+    const [previousPlacedBets, setPreviousPlacedBets] = useState<PlacedBet[]>([]);
     const [openOption, setOpenOption] = useState<boolean>(false);
     // const [creditOpenOption, setCreditOpenOption] = useState<boolean>(false);
     const [spinning, setSpinning] = useState(false);
@@ -70,9 +70,6 @@ const Card: React.FC =() => {
     const handleSelectOption = (option: string) => {
         setSelectedOption(option);
     };
-
-
-
 
     const getOptionOdd = (o: string): number => {
         if (o === 'even' || o === 'odd' || o === 'black' || o === 'red' || o === 'low' || o === 'high') {
@@ -127,7 +124,7 @@ const Card: React.FC =() => {
             setSpinning(false);
             setRandomNumber(randomNumber);
             setOpenOption(false);
-            // setWonOpenOption(true);
+            setWonOpenOption(true);
         setGeneratedRandomNumbers([...generatedRandomNumbers, randomNumber]);
         //resetRandomNumberOccurrences();
         setPreviousPlacedBets(placedBets.slice())   
@@ -590,14 +587,23 @@ const Card: React.FC =() => {
     };
 
     
+//   useEffect(() => {
+//     const timeoutId = setTimeout(() => {
+//       setWonOpenOption(true);
+//     }, 10050);
+
+
+//     return () => clearTimeout(timeoutId);
+//   }, []); 
+
   useEffect(() => {
     const timeoutId = setTimeout(() => {
-      setWonOpenOption(true);
-    }, 12000);
+      setWonOpenOption(false);
+    }, 12050);
 
 
     return () => clearTimeout(timeoutId);
-  }, []); 
+  }, [wonOpenOption]); 
 
 
     const setPlacedAmont = () => {

@@ -13,8 +13,8 @@ const App:React.FC = () => {
 const AppContainer = styled.div`
 position:absolute;
 top:40px;
-left:170px;;
-margin-right:200px;
+left:270px;;
+margin-right:400px;
 display:flex;
 align-items:center;
 justify-content:center;
