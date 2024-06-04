@@ -66,6 +66,8 @@ const Card: React.FC =() => {
     const [currentNumber, setCurrentNumber] = useState<number | null>(null);
     const [generatedNumber, setGeneratedNumber] = useState<number | null>(null);
     const [wonOpenOption , setWonOpenOption] = useState<boolean>(false);
+    const [openCoinOption, setOpenCoinOption] = useState<boolean>(false);
+    const [coinOption, setCoinOption] = useState<string>('');
 
     const handleSelectOption = (option: string) => {
         setSelectedOption(option);
@@ -112,9 +114,7 @@ const Card: React.FC =() => {
     
 
     const handleSpin = () => {
-
-
-        setOpenOption(!openOption)
+      setOpenOption(!openOption)
         setSpinning(true);
         const randomNumber = Math.floor(Math.random() * 37);
         
@@ -599,12 +599,20 @@ const Card: React.FC =() => {
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setWonOpenOption(false);
-    }, 12050);
+    }, 12000);
 
 
     return () => clearTimeout(timeoutId);
   }, [wonOpenOption]); 
 
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      setOpenCoinOption(false)
+    }, 2000);
+
+
+    return () => clearTimeout(timeoutId);
+  }, [openCoinOption]); 
 
     const setPlacedAmont = () => {
         let amount = 0;
@@ -676,6 +684,11 @@ const Card: React.FC =() => {
         console.log('IMG:', img);
 
         return img;
+    }
+
+    const handleCoinOption = (o: string) =>{  
+        setCoinOption(o)
+        setOpenCoinOption(true)
     }
 
     const getBlinkState = (s: string) => {
@@ -862,6 +875,7 @@ const Card: React.FC =() => {
     }
 
     const handleSelected = (option: string) => {
+        // setOpenCoinOption(!openCoinOption)
         handleSelectOption(option)
         setSelectedOption(selectedOption)
         placedBets.push({
@@ -922,10 +936,15 @@ const Card: React.FC =() => {
                 <Top>
                     <ContDivL>
                    
-                            <ZeroItem blink={getBlinkState('zero')} onClick={() => handleSelected('zero')}
+                            <ZeroItem blink={getBlinkState('zero')} 
+                                 onClick={() => {
+                                handleSelected('zero');
+                                handleCoinOption('zero');
+                                }}
                                 onMouseLeave={() => handleMouseOverOrLeave('')}
                                 onMouseOver={() => handleMouseOverOrLeave('zero')} >
                                 {(mouseOverOption === 'zero') && (<PopImgZ src={getMouseOverImage()} />)}
+                                {(coinOption === 'zero' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                 {(randomNumber !== null && randomNumber === 0) ? (<ImageWin src={imageUrlWin} />) :
                                     (placedBets.findIndex(x => x.Option === '0') !== -1) ?
                                         (<Image src={getDisplayImage('0')} />) :
@@ -936,359 +955,590 @@ const Card: React.FC =() => {
                     <CardContainer>
                        
                             <ContDiv>
-                                <ListStyles blink={getBlinkState('3')} variant="primary" onClick={() => handleSelected('3')}
+                                <ListStyles blink={getBlinkState('3')} variant="primary" 
+                                 onClick={() => {
+                                handleSelected('3');
+                                handleCoinOption('3');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('3')}>
                                     {(mouseOverOption === '3') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '3' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 3) ? (<ImageWin src={imageUrlWin} />) :
-                                        (placedBets.findIndex(x => x.Option === '3') !== -1) ? (<Image src={getDisplayImage('3')} />) : 3}
+                                  (placedBets.findIndex(x => x.Option === '3') !== -1) ? (<Image src={getDisplayImage('3')} />) : 3}
                                 </ListStyles>
 
-                            <ListStyles blink={getBlinkState('6')} variant="secondary" onClick={() => handleSelected('6')}
+                            <ListStyles blink={getBlinkState('6')} variant="secondary"  
+                                onClick={() => {
+                                handleSelected('6');
+                                handleCoinOption('6');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('6')}>
                                     {(mouseOverOption === '6') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '6' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 6) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '6') !== -1) ? (<Image src={getDisplayImage('6')} />) : 6}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('9')} variant="primary" onClick={() => handleSelected('9')}
+                                <ListStyles blink={getBlinkState('9')} variant="primary"
+                                 onClick={() => {
+                                handleSelected('9');
+                                handleCoinOption('9');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('9')} >
                                     {(mouseOverOption === '9') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '9' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 9) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '9') !== -1) ? (<Image src={getDisplayImage('9')} />) : 9}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('12')} variant="primary" onClick={() => handleSelected('12')}
+                                <ListStyles blink={getBlinkState('12')} variant="primary" 
+                                onClick={() => {
+                                handleSelected('12');
+                                handleCoinOption('12');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('12')}>
                                     {(mouseOverOption === '12') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '12' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 12) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '12') !== -1) ? (<Image src={getDisplayImage('12')} />) : 12}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('15')} variant="secondary" onClick={() => handleSelected('15')}
+                                <ListStyles blink={getBlinkState('15')} variant="secondary" 
+                                onClick={() => {
+                                handleSelected('15');
+                                handleCoinOption('15');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('15')}>
                                     {(mouseOverOption === '15') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '15' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 15) ? (<ImageWin src={imageUrlWin} />) :
-                                        (placedBets.findIndex(x => x.Option === '15') !== -1) ? (<Image src={getDisplayImage('15')} />) : 15}
+                                    (placedBets.findIndex(x => x.Option === '15') !== -1) ? (<Image src={getDisplayImage('15')} />) : 15}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('18')} variant="primary" onClick={() => handleSelected('18')}
+                                <ListStyles blink={getBlinkState('18')} variant="primary" 
+                                onClick={() => {
+                                handleSelected('18');
+                                handleCoinOption('18');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('18')}>
                                     {(mouseOverOption === '18') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '18' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 18) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '18') !== -1) ? (<Image src={getDisplayImage('18')} />) : 18}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('21')} variant="primary" onClick={() => handleSelected('21')}
+                                <ListStyles blink={getBlinkState('21')} variant="primary"  
+                                onClick={() => {
+                                handleSelected('21');
+                                handleCoinOption('21');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('21')} >
                                     {(mouseOverOption === '21') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '21' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 21) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '21') !== -1) ? (<Image src={getDisplayImage('21')} />) : 21}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('24')} variant="secondary" onClick={() => handleSelected('24')}
+                                <ListStyles blink={getBlinkState('24')} variant="secondary"
+                                 onClick={() => {
+                                handleSelected('24');
+                                handleCoinOption('24');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('24')}>
                                     {(mouseOverOption === '24') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '24' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 24) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '24') !== -1) ? (<Image src={getDisplayImage('24')} />) : 24}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('27')} variant="primary" onClick={() => handleSelected('27')}
+                                <ListStyles blink={getBlinkState('27')} variant="primary" 
+                                onClick={() => {
+                                handleSelected('27');
+                                handleCoinOption('27');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('27')}>
                                     {(mouseOverOption === '27') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '27' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 27) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '27') !== -1) ? (<Image src={getDisplayImage('27')} />) : 27}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('30')} variant="primary" onClick={() => handleSelected('30')}
+                                <ListStyles blink={getBlinkState('30')} variant="primary" 
+                                 onClick={() => {
+                                handleSelected('30');
+                                handleCoinOption('30');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('30')}>
                                     {(mouseOverOption === '30') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '30' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 30) ? (<ImageWin src={imageUrlWin} />) :
                                         (randomNumber !== null && randomNumber === 30) ? (<ImageWin src={imageUrlWin} />) :
                                             (placedBets.findIndex(x => x.Option === '30') !== -1) ? (<Image src={getDisplayImage('30')} />) : 30}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('33')} variant="secondary" onClick={() => handleSelected('33')}
+                                <ListStyles blink={getBlinkState('33')} variant="secondary"  
+                                onClick={() => {
+                                handleSelected('33');
+                                handleCoinOption('33');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('33')}>
                                     {(mouseOverOption === '33') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '33' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 33) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '33') !== -1) ? (<Image src={getDisplayImage('33')} />) : 33}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('36')} variant="primary" onClick={() => handleSelected('36')}
+                                <ListStyles blink={getBlinkState('36')} variant="primary" 
+                                 onClick={() => {
+                                handleSelected('36');
+                                handleCoinOption('36');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('36')} >
                                     {(mouseOverOption === '36') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '36' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 36) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '36') !== -1) ? (<Image src={getDisplayImage('36')} />) : 36}
                                 </ListStyles>
                     </ContDiv>
                     <ContDiv>
-                                <ListStyles blink={getBlinkState('2')} variant="secondary" onClick={() => handleSelected('2')}
+                                <ListStyles blink={getBlinkState('2')} variant="secondary" 
+                                 onClick={() => {
+                                handleSelected('2');
+                                handleCoinOption('2');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('2')}>
                                     {(mouseOverOption === '2') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '2' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 2) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '2') !== -1) ? (<Image src={getDisplayImage('2')} />) : 2}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('5')} variant="primary" onClick={() => handleSelected('5')}
+                                <ListStyles blink={getBlinkState('5')} variant="primary"
+                                onClick={() => {
+                                handleSelected('5');
+                                handleCoinOption('5');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('5')}>
                                     {(mouseOverOption === '5') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '5' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 5) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '5') !== -1) ? (<Image src={getDisplayImage('5')} />) : 5}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('8')} variant="secondary" onClick={() => handleSelected('8')}
+                                <ListStyles blink={getBlinkState('8')} variant="secondary"                             
+                                onClick={() => {
+                                handleSelected('8');
+                                handleCoinOption('8');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('8')}>
                                     {(mouseOverOption === '8') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '8' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 8) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '8') !== -1) ? (<Image src={getDisplayImage('8')} />) : 8}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('11')} variant="secondary" onClick={() => handleSelected('11')}
+                                <ListStyles blink={getBlinkState('11')} variant="secondary"   
+                                onClick={() => {
+                                handleSelected('11');
+                                handleCoinOption('11');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('11')}>
                                     {(mouseOverOption === '11') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '11' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 11) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '11') !== -1) ? (<Image src={getDisplayImage('11')} />) : 11}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('14')} variant="primary" onClick={() => handleSelected('14')}
+                                <ListStyles blink={getBlinkState('14')} variant="primary" 
+                                 onClick={() => {
+                                handleSelected('14');
+                                handleCoinOption('14');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('14')} >
                                     {(mouseOverOption === '14') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '14' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 14) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '14') !== -1) ? (<Image src={getDisplayImage('14')} />) : 14}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('17')} variant="secondary" onClick={() => handleSelected('17')}
+                                <ListStyles blink={getBlinkState('17')} variant="secondary" 
+                                onClick={() => {
+                                handleSelected('17');
+                                handleCoinOption('17');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('17')}>
                                     {(mouseOverOption === '17') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '17' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 17) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '17') !== -1) ? (<Image src={getDisplayImage('17')} />) : 17}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('20')} variant="secondary" onClick={() => handleSelected('20')}
+                                <ListStyles blink={getBlinkState('20')} variant="secondary" 
+                                onClick={() => {
+                                handleSelected('20');
+                                handleCoinOption('20');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('20')} >
                                     {(mouseOverOption === '20') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '20' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 20) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '20') !== -1) ? (<Image src={getDisplayImage('20')} />) : 20}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('23')} variant="primary" onClick={() => handleSelected('23')}
+                                <ListStyles blink={getBlinkState('23')} variant="primary" 
+                                 onClick={() => {
+                                handleSelected('23');
+                                handleCoinOption('23');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('23')} >
                                     {(mouseOverOption === '23') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '23' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 23) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '23') !== -1) ? (<Image src={getDisplayImage('23')} />) : 23}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('26')} variant="secondary" onClick={() => handleSelected('26')}
+                                <ListStyles blink={getBlinkState('26')} variant="secondary"             
+                                 onClick={() => {
+                                handleSelected('26');
+                                handleCoinOption('26');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('26')}>
                                     {(mouseOverOption === '26') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '26' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 26) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '26') !== -1) ? (<Image src={getDisplayImage('26')} />) : 26}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('29')} variant="secondary" onClick={() => handleSelected('29')}
+                                <ListStyles blink={getBlinkState('29')} variant="secondary"                                 
+                                 onClick={() => {
+                                handleSelected('29');
+                                handleCoinOption('29');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('29')}>
                                     {(mouseOverOption === '29') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '29' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 29) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '29') !== -1) ? (<Image src={getDisplayImage('29')} />) : 29}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('32')} variant="primary" onClick={() => handleSelected('32')}
+                                <ListStyles blink={getBlinkState('32')} variant="primary" 
+                                 onClick={() => {
+                                handleSelected('32');
+                                handleCoinOption('32');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('32')}>
                                     {(mouseOverOption === '32') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '32' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 32) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '32') !== -1) ? (<Image src={getDisplayImage('32')} />) : 32}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('35')} variant="secondary" onClick={() => handleSelected('35')}
+                                <ListStyles blink={getBlinkState('35')} variant="secondary"  
+                                onClick={() => {
+                                handleSelected('35');
+                                handleCoinOption('35');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('35')}>
                                     {(mouseOverOption === '35') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '35' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 35) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '35') !== -1) ? (<Image src={getDisplayImage('35')} />) : 35}
                                 </ListStyles>
                         </ContDiv>
                         <ContDiv>
-                                <ListStyles blink={getBlinkState('1')} variant="primary" onClick={() => handleSelected('1')}
+                                <ListStyles blink={getBlinkState('1')} variant="primary"  
+                                 onClick={() => {
+                                handleSelected('1');
+                                handleCoinOption('1');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
-                                    onMouseOver={() => handleMouseOverOrLeave('1')}>
+                                    onMouseOver={() => handleMouseOverOrLeave('1')}>      
                                     {(mouseOverOption === '1') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '1' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 1) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '1') !== -1) ? (<Image src={getDisplayImage('1')} />) : 1}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('4')} variant="secondary" onClick={() => handleSelected('4')}
+                                <ListStyles blink={getBlinkState('4')} variant="secondary" 
+                                 onClick={() => {
+                                handleSelected('4');
+                                handleCoinOption('4');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('4')}>
                                     {(mouseOverOption === '4') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '4' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 4) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '4') !== -1) ? (<Image src={getDisplayImage('4')} />) : 4}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('7')} variant="primary" onClick={() => handleSelected('7')}
+                                <ListStyles blink={getBlinkState('7')} variant="primary" 
+                                 onClick={() => {
+                                handleSelected('7');
+                                handleCoinOption('7');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('7')}>
                                     {(mouseOverOption === '7') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '7' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 7) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '7') !== -1) ? (<Image src={getDisplayImage('7')} />) : 7}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('10')} variant="secondary" onClick={() => handleSelected('10')}
+                                <ListStyles blink={getBlinkState('10')} variant="secondary" 
+                                 onClick={() => {
+                                handleSelected('10');
+                                handleCoinOption('10');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('10')}>
                                     {(mouseOverOption === '10') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '10' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 10) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '10') !== -1) ? (<Image src={getDisplayImage('10')} />) : 10}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('13')} variant="secondary" onClick={() => handleSelected('13')}
+                                <ListStyles blink={getBlinkState('13')} variant="secondary"  
+                                  onClick={() => {
+                                handleSelected('13');
+                                handleCoinOption('13');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('13')}>
                                     {(mouseOverOption === '13') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '13' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 13) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '13') !== -1) ? (<Image src={getDisplayImage('13')} />) : 13}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('16')} variant="primary" onClick={() => handleSelected('16')}
+                                <ListStyles blink={getBlinkState('16')} variant="primary"    
+                                 onClick={() => {
+                                handleSelected('16');
+                                handleCoinOption('16');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('16')} >
                                     {(mouseOverOption === '16') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '16' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 16) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '16') !== -1) ? (<Image src={getDisplayImage('16')} />) : 16}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('19')} variant="primary" onClick={() => handleSelected('19')}
+                                <ListStyles blink={getBlinkState('19')} variant="primary"  
+                                 onClick={() => {
+                                handleSelected('19');
+                                handleCoinOption('19');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('19')}>
                                     {(mouseOverOption === '19') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '19' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 19) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '19') !== -1) ? (<Image src={getDisplayImage('19')} />) : 19}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('22')} variant="secondary" onClick={() => handleSelected('22')}
+                                <ListStyles blink={getBlinkState('22')} variant="secondary"   
+                                 onClick={() => {
+                                handleSelected('22');
+                                handleCoinOption('22');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('22')}>
                                     {(mouseOverOption === '22') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '22' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 22) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '22') !== -1) ? (<Image src={getDisplayImage('22')} />) : 22}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('25')} variant="primary" onClick={() => handleSelected('25')}
+                                <ListStyles blink={getBlinkState('25')} variant="primary"  
+                                 onClick={() => {
+                                handleSelected('25');
+                                handleCoinOption('25');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('25')}>
                                     {(mouseOverOption === '25') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '25' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 25) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '25') !== -1) ? (<Image src={getDisplayImage('25')} />) : 25}
                                 </ListStyles>
 
-                                <ListStyles blink={getBlinkState('28')} variant="secondary" onClick={() => handleSelected('28')}
+                                <ListStyles blink={getBlinkState('28')} variant="secondary" 
+                                 onClick={() => {
+                                handleSelected('28');
+                                handleCoinOption('28');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('28')}>
                                     {(mouseOverOption === '28') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '28' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 28) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '28') !== -1) ? (<Image src={getDisplayImage('28')} />) : 28}
                                 </ListStyles >
 
-                                <ListStyles variant="secondary" blink={getBlinkState('31')} onClick={() => handleSelected('31')}
+                                <ListStyles variant="secondary" blink={getBlinkState('31')} 
+                                 onClick={() => {
+                                handleSelected('31');
+                                handleCoinOption('31');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('31')}>
                                     {(mouseOverOption === '31') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '31' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 31) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '31') !== -1) ? (<Image src={getDisplayImage('31')} />) : 31}
                                 </ListStyles>
 
-                                <ListStyles variant="primary" blink={getBlinkState('34')} onClick={() => handleSelected('34')}
+                                <ListStyles variant="primary" blink={getBlinkState('34')} 
+                                 onClick={() => {
+                                handleSelected('34');
+                                handleCoinOption('34');
+                                }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
                                     onMouseOver={() => handleMouseOverOrLeave('34')}>
                                     {(mouseOverOption === '34') && (<ImageH src={getMouseOverImage()} />)}
+                                    {(coinOption === '34' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(randomNumber !== null && randomNumber === 34) ? (<ImageWin src={imageUrlWin} />) :
                                         (placedBets.findIndex(x => x.Option === '34') !== -1) ? (<Image src={getDisplayImage('34')} />) : 34}
                                 </ListStyles>
                                 </ContDiv>
                             
                             <ContDiv>
-                                <ListItems blink={getBlinkState('range12')} onClick={() => handleSelected('range12')}
+                                <ListItems blink={getBlinkState('range12')}
+                                   onClick={() => {
+                                    handleSelected('range12');
+                                    handleCoinOption('range12');
+                                  }}
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
-                                    onMouseOver={() => handleMouseOverOrLeave('range12')}>
+                                    onMouseOver={() => handleMouseOverOrLeave('range12')} >
                                     {(mouseOverOption === 'range12') && (<PopImg src={getMouseOverImage()} />)}
+                                    {(coinOption === 'range12' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
+                                                    
+                                                     
                                     {(placedBets.findIndex(x => x.Option === 'range12') !== -1) ?
                                         (<Image src={getDisplayImage('range12')} />) : '1 ~ 12'}
+                            
                                 </ListItems>
-                                <ListItems blink={getBlinkState('range1324')} onClick={() => handleSelected('range1324')}
+                                <ListItems blink={getBlinkState('range1324')} 
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
-                                    onMouseOver={() => handleMouseOverOrLeave('range1324')}>
+                                    onMouseOver={() => handleMouseOverOrLeave('range1324')}
+                                    onClick={() => {
+                                        handleSelected('range1324');
+                                        handleCoinOption('range1324');
+                                      }}
+                                      >
                                     {(mouseOverOption === 'range1324') && (<PopImg src={getMouseOverImage()} />)}
+                                    {(coinOption === 'range1324' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(placedBets.findIndex(x => x.Option === 'range1324') !== -1) ?
                                         (<Image src={getDisplayImage('range1324')} />) : '13 ~ 24'}
                                 </ListItems>
-                                <ListItems blink={getBlinkState('range2536')} onClick={() => handleSelected('range2536')}
+                                <ListItems blink={getBlinkState('range2536')} 
                                     onMouseLeave={() => handleMouseOverOrLeave('')}
-                                    onMouseOver={() => handleMouseOverOrLeave('range2536')}>
+                                    onMouseOver={() => handleMouseOverOrLeave('range2536')}
+                                    onClick={() => {
+                                        handleSelected('range2536');
+                                        handleCoinOption('range2536');
+                                      }}
+                                    >
                                     {(mouseOverOption === 'range2536') && (<PopImg src={getMouseOverImage()} />)}
+                                    {(coinOption === 'range2536' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                     {(placedBets.findIndex(x => x.Option === 'range2536') !== -1) ?
                                         (<Image src={getDisplayImage('range2536')} />) : '25 ~ 36'}
                                 </ListItems>
                                 </ContDiv>
                        <ContDivLL>
                        <Lion> <ImageLion src={imageUrlLion} /> </Lion>
-                       <NumberItems blink={getBlinkState('low')} onClick={() => handleSelected('low')}
+                       <NumberItems blink={getBlinkState('low')} 
+                               onClick={() => {
+                                handleSelected('low');
+                                handleCoinOption('low');
+                              }}
                                 onMouseLeave={() => handleMouseOverOrLeave('')}
                                 onMouseOver={() => handleMouseOverOrLeave('low')} >
                                 {(mouseOverOption === 'low') && (<ImageH src={getMouseOverImage()} />)}
+                                {(coinOption === 'low' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                 {(placedBets.findIndex(x => x.Option === 'low') !== -1) ? (<Image src={getDisplayImage('low')} />) : 'LOW'}
                             </NumberItems>
-                            <NumberItems blink={getBlinkState('even')} onClick={() => handleSelected('even')}
+                            <NumberItems blink={getBlinkState('even')} 
+                                onClick={() => {
+                                handleSelected('even');
+                                handleCoinOption('even');
+                              }}
                                 onMouseLeave={() => handleMouseOverOrLeave('')}
                                 onMouseOver={() => handleMouseOverOrLeave('even')}>
                                 {(mouseOverOption === 'even') && (<ImageH src={getMouseOverImage()} />)}
+                                {(coinOption === 'even' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                 {(placedBets.findIndex(x => x.Option === 'even') !== -1) ? (<Image src={getDisplayImage('even')} />) : 'EVEN'}
                             </NumberItems>
-                            <NumberItems blink={getBlinkState('red')} onClick={() => handleSelected('red')}
+                            <NumberItems blink={getBlinkState('red')}  
+                               onClick={() => {
+                                handleSelected('red');
+                                handleCoinOption('red');
+                              }}
                                 onMouseLeave={() => handleMouseOverOrLeave('')}
                                 onMouseOver={() => handleMouseOverOrLeave('red')}>
                                 {(mouseOverOption === 'red') && (<ImageH src={getMouseOverImage()} />)}
+                                {(coinOption === 'red' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                 {(placedBets.findIndex(x => x.Option === 'red') !== -1) ? (<Image src={getDisplayImage('red')} />) :
                                     (<Diamond color="red" width={45} height={45} />)}
                             </NumberItems>
-                            <NumberItems blink={getBlinkState('black')} onClick={() => handleSelected('black')}
+                            <NumberItems blink={getBlinkState('black')} 
+                                onClick={() => {
+                                handleSelected('black');
+                                handleCoinOption('black');
+                              }}
                                 onMouseLeave={() => handleMouseOverOrLeave('')}
                                 onMouseOver={() => handleMouseOverOrLeave('black')}>
                                 {(mouseOverOption === 'black') && (<ImageH src={getMouseOverImage()} />)}
+                                {(coinOption === 'black' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                 {(placedBets.findIndex(x => x.Option === 'black') !== -1) ? (<Image src={getDisplayImage('black')} />) :
                                     (<Diamond color="black" width={45} height={45} />)}
                             </NumberItems>
-                            <NumberItems blink={getBlinkState('odd')} onClick={() => handleSelected('odd')}
+                            <NumberItems blink={getBlinkState('odd')}
+                                onClick={() => {
+                                handleSelected('odd');
+                                handleCoinOption('odd');
+                              }}
                                 onMouseLeave={() => handleMouseOverOrLeave('')}
                                 onMouseOver={() => handleMouseOverOrLeave('odd')}>
                                 {(mouseOverOption === 'odd') && (<ImageH src={getMouseOverImage()} />)}
+                                {(coinOption === 'odd' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                 {(placedBets.findIndex(x => x.Option === 'odd') !== -1) ? (<Image src={getDisplayImage('odd')} />) : 'ODD'}
-                            </NumberItems>
-                            <NumberItems blink={getBlinkState('high')} onClick={() => handleSelected('high')}
+                               
+                                </NumberItems>
+                            <NumberItems blink={getBlinkState('high')}
+                                onClick={() => {
+                                handleSelected('high');
+                                handleCoinOption('high');
+                              }}
                                 onMouseLeave={() => handleMouseOverOrLeave('')}
                                 onMouseOver={() => handleMouseOverOrLeave('high')}>
                                 {(mouseOverOption === 'high') && (<ImageH src={getMouseOverImage()} />)}
+                                {(coinOption === 'high' && openCoinOption )?( <Coin> {betAmount} </Coin>):''}
                                 {(placedBets.findIndex(x => x.Option === 'high') !== -1) ? (<Image src={getDisplayImage('high')} />) : 'HIGH'}
                             </NumberItems>
                                <Lion> <ImageLionR src={imageUrlLion} /> </Lion>
@@ -1311,7 +1561,7 @@ const Card: React.FC =() => {
                           <StakeBalance>
                               <BalanceTitle >CREDIT</BalanceTitle>
                              <BalanceAmount >     
-                               
+                               KSh 0.00
                            </BalanceAmount>
                           </StakeBalance>
                            <StakeBalance>
@@ -1360,6 +1610,8 @@ const Card: React.FC =() => {
                          </RightDiv>
                      </FooterContainer>
 
+                    
+
                  { <div>
                    {    result==='win'?
                         wonOpenOption &&
@@ -1375,6 +1627,24 @@ const Card: React.FC =() => {
   </>
    )
 }
+
+
+const Coin = styled.div`
+color:black;
+font-size:10px;
+font-weight:500;
+display:flex;
+align-items:center;
+justify-content:center;
+width:25px;
+height:25px;
+background:white;
+border-radius:5px;
+position:absolute;
+top:0%;
+left:40%;
+`
+
 const Top = styled.div`
 display:flex;
 gap:0px;

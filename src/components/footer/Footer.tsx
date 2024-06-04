@@ -69,6 +69,18 @@ const BlueButton = styled.button`
   border-radius: 2px;
   border:none;
 `;
+
+const BlueButtonStats = styled.button`
+color: #fff;
+width:58px;
+height: 24px;
+margin-left: 3px;
+font-size: 12px;
+cursor: pointer;
+background-color:#0096FF;
+border-radius: 2px;
+border:none;
+`
 const StyledAnchor = styled.a`
     // font-style: normal;
     // font-weight: 400;
@@ -123,7 +135,7 @@ const Footer: React.FC = () => {
             </StyledSpan>
           </BlueButton>
           <BlueButton><StyledSpan><FontAwesomeIcon icon={faDollarSign} /></StyledSpan></BlueButton>
-          <BlueButton><FontAwesomeIcon icon={faChartSimple} /></BlueButton>
+          <BlueButtonStats><FontAwesomeIcon icon={faChartSimple} /></BlueButtonStats>
         </div>
       </ThirdCol>
     </OuterDiv>
