@@ -50,9 +50,9 @@ interface DiamondProps {
 
 const Card: React.FC =() => {
     const [betAmount, setBetAmount] = useState<number>(10);
-    const [payoutAmount, setPayOutAmount] = useState<number>(0);
+    const [payoutAmount, setPayOutAmount] = useState<number>(0.00);
     const [mouseOverOption, setMouseOverOption] = useState<string>('');
-    const [placedBetAmount, setPlacedBetAmount] = useState<number>(0);
+    const [placedBetAmount, setPlacedBetAmount] = useState<number>(0.00);
     const [selectedOption, setSelectedOption] = useState<string | null>(null);
     const [randomNumber, setRandomNumber] = useState<number | null>(null);
     const [result, setResult] = useState<'win' | 'lose' | null>(null);
@@ -616,11 +616,12 @@ const Card: React.FC =() => {
 
     const setPlacedAmont = () => {
         let amount = 0;
-        placedBets.forEach(x => {
-            amount += x.BetAmount;
-        });
-
-        setPlacedBetAmount(amount)
+        if (placedBetAmount < 1000) {
+           placedBets.forEach(x => {
+                amount += x.BetAmount;
+            });
+          }
+              setPlacedBetAmount(amount)
     }
     
     const getShowBorder = (n:number) =>{
@@ -1549,7 +1550,7 @@ const Card: React.FC =() => {
                     <ContDivR>
                     <ButtonContainer>
                             <StyledButton onClick={rebet} disabled={placedBets.length>0}><FontAwesomeIcon icon={faArrowRotateRight} /></StyledButton>
-                            <StyledButton onClick={() => handleDouble()}  disabled={placedBets.length===0}>x2</StyledButton>
+                            <StyledButton onClick={() => handleDouble()}  disabled={placedBets.length===0||placedBetAmount>500}>x2</StyledButton>
                             <StyledButton onClick={undo}  disabled={placedBets.length===0}><FontAwesomeIcon icon={faRotateLeft}  /></StyledButton>
                             <StyledButton onClick={deleteSelected}  disabled={placedBets.length===0}><FontAwesomeIcon icon={faTrashCan} /></StyledButton>
                         </ButtonContainer>
@@ -1561,7 +1562,7 @@ const Card: React.FC =() => {
                           <StakeBalance>
                               <BalanceTitle >CREDIT</BalanceTitle>
                              <BalanceAmount >     
-                               KSh 0.00
+                               KSh0.00
                            </BalanceAmount>
                           </StakeBalance>
                            <StakeBalance>
@@ -1631,18 +1632,18 @@ const Card: React.FC =() => {
 
 const Coin = styled.div`
 color:black;
-font-size:10px;
-font-weight:500;
+font-size:14px;
+font-weight:600;
 display:flex;
 align-items:center;
 justify-content:center;
-width:25px;
-height:25px;
-background:white;
-border-radius:5px;
+width:30px;
+height:30px;
+background:blue;
+border-radius:6px;
 position:absolute;
 top:0%;
-left:40%;
+left:30%;
 `
 
 const Top = styled.div`
