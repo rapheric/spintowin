@@ -118,7 +118,7 @@ const StatsDivR = styled.div`
   justify-content:center;
   align-items:center;
   margin-right: 3px;
-  color: #005383;
+  color: black;
   width: 24px;
   height: 24px;
   padding: 0 3px;
@@ -134,15 +134,18 @@ const StatsDivR = styled.div`
 const StatsDiv = styled.div`
   border-radius: 50%;
   align-items:center;
+  font-weight:700;
   display:flex;
   justify-content:center;
   align-items:center;
   border-radius: 50%;
+  color:black;
   width: 24px;
   height: 24px;
   padding: 0 3px;
   margin-right: 5px;
-  font-size: 16px;
+  font-size: 18px;
+  background-color:	#FFD700;
   // border-radius: 5px;
   -webkit-box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .5);
   box-shadow: 0 1px 8px 0 rgba(0, 0, 0, .5);
