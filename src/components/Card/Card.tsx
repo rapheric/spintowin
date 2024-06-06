@@ -40,6 +40,9 @@ interface DiamondProps {
     width: number;
     height: number;
 }
+interface Max{
+    placedBetAmount?:number;
+}
 
 const Card: React.FC = () => {
     const [betAmount, setBetAmount] = useState<number>(10);
@@ -52,7 +55,6 @@ const Card: React.FC = () => {
     const [placedBets, setPlacedBets] = useState<PlacedBet[]>([]);
     const [previousPlacedBets, setPreviousPlacedBets] = useState<PlacedBet[]>([]);
     const [openOption, setOpenOption] = useState<boolean>(false);
-    // const [creditOpenOption, setCreditOpenOption] = useState<boolean>(false);
     const [spinning, setSpinning] = useState(false);
     const [generatedRandomNumbers, setGeneratedRandomNumbers] = useState<number[]>([]);
     const intervalRef = useRef<NodeJS.Timeout | null>(null);
@@ -127,7 +129,6 @@ const Card: React.FC = () => {
                         .map(c => c.BetAmount * getOptionOdd(c.Option))
                         .reduce((sum, current) => sum + current);
                     setPayOutAmount(payoutAmount)
-
                 }
                 break;
             case 1:
@@ -1618,27 +1619,27 @@ const Card: React.FC = () => {
 
                 <RightDiv>
                     <OuterDiv>
-                        <InnerDiv>
+                        <InnerDiv disabled={placedBetAmount > 500}>
                             <Image src={imageUrlP} showBorder={getShowBorder(500)} onClick={() => setBetAmount(Number(500))} />
                             <Span>KSh500</Span>
                         </InnerDiv>
-                        <InnerDiv>
+                        <InnerDiv disabled={placedBetAmount >600}>
                             <Image src={imageUrlB} showBorder={getShowBorder(400)} onClick={() => setBetAmount(Number(400))} />
                             <Span>KSh400</Span>
                         </InnerDiv>
-                        <InnerDiv>
+                        <InnerDiv disabled={placedBetAmount > 800}>
                             <Image src={imageUrlO} showBorder={getShowBorder(200)} onClick={() => setBetAmount(Number(200))} />
                             <Span>KSh200</Span>
                         </InnerDiv>
-                        <InnerDiv>
+                        <InnerDiv disabled={placedBetAmount > 900}>
                             <Image src={imageUrlG} showBorder={getShowBorder(100)} onClick={() => setBetAmount(Number(100))} />
                             <Span>KSh100</Span>
                         </InnerDiv>
-                        <InnerDiv >
+                        <InnerDiv disabled={placedBetAmount >950} >
                             <Image src={imageUrlR} showBorder={getShowBorder(50)} onClick={() => setBetAmount(Number(50))} />
                             <Span>KSh50</Span>
                         </InnerDiv>
-                        <InnerDiv>
+                        <InnerDiv disabled={placedBetAmount > 990}>
                             <Image src={imageUrlBL} showBorder={getShowBorder(10)} onClick={() => setBetAmount(Number(10))} />
                             <Span>KSh10</Span>
                         </InnerDiv>
@@ -2054,7 +2055,7 @@ const OuterDiv = styled.div`
   items: center;
 `;
 
-const InnerDiv = styled.div`
+const InnerDiv = styled.button<Max>`
 flex-basis: 16.66666667%;
 max-width: 16.66666667%;
   display: flex;
@@ -2063,6 +2064,11 @@ max-width: 16.66666667%;
   flex-direction: column;
   width:53px:
   height:70px;
+  background-color:#192348;
+  outline:none;
+  border:none;
+
+
 `;
 
 const Span = styled.span`
