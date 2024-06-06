@@ -601,12 +601,18 @@ const Card: React.FC = () => {
     }, [openCoinOption]);
 
     const setPlacedAmont = () => {
+        // let placedBetAmount = 0;
         let amount = 0;
         placedBets.forEach(x => {
             amount += x.BetAmount;
         });
 
-        setPlacedBetAmount(amount)
+        if (placedBetAmount < 1000) {
+            setPlacedBetAmount(amount)
+          }
+       
+
+        // setPlacedBetAmount(amount)
     }
 
     const getShowBorder = (n: number) => {
@@ -862,13 +868,16 @@ const Card: React.FC = () => {
 
     const handleSelected = (option: string) => {
         // setOpenCoinOption(!openCoinOption)
-        handleSelectOption(option)
-        setSelectedOption(selectedOption)
-        placedBets.push({
-            Option: option,
-            BetAmount: betAmount
-        });
-
+        if (placedBetAmount < 1000) {
+            handleSelectOption(option)
+            setSelectedOption(selectedOption)
+            placedBets.push({
+                Option: option,
+                BetAmount: betAmount
+            });
+    
+          }
+       
         setPlacedAmont();
         console.log(placedBets);
     }
@@ -927,18 +936,19 @@ const Card: React.FC = () => {
                             onMouseLeave={() => handleMouseOverOrLeave('')}
                             onMouseOver={() => handleMouseOverOrLeave('zero')} >
                             {(mouseOverOption === 'zero') && (<PopImgZ src={getMouseOverImage()} />)}
-                            {(coinOption === 'zero' && openCoinOption) ?  (<Coins> <CoinIcon><FontAwesomeIcon icon={faCoins} />
+                            {(coinOption === 'zero' && openCoinOption) ? 
+                             (<Coins> <CoinIcon><FontAwesomeIcon icon={faCoins} />
                                  </CoinIcon><Coin>{betAmount}</Coin></Coins>) : ''}
                             {(randomNumber !== null && randomNumber === 0) ? (<ImageWin src={imageUrlWin} />) :
-                                (placedBets.findIndex(x => x.Option === '0') !== -1) ?
-                                    (<Image src={getDisplayImage('0')} />) :
-                                    <Diamond color="green" width={40} height={40} />}
+                                (placedBets.findIndex(x => x.Option === 'zero') !== -1) ?
+                                    (<Image src={getDisplayImage('zero')} />) :
+                                    <Diamond color="green" width={40} height={40}
+                                     />}
                         </ZeroItem>
                     </ContDivL>
 
                     <CardContainer>
-
-                        <ContDiv>
+                       <ContDiv>
                             <ListStyles blink={getBlinkState('3')} variant="primary"
                                 onClick={() => {
                                     handleSelected('3');
