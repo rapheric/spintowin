@@ -65,9 +65,9 @@ const NavbarContainer = styled.nav`
    width:100%;
   top:0px;
   max-width:940px;
-  max-height:36px;
+  max-height:360px;
   height:100%;
-  margin-bottom:30px;
+  margin-bottom:25px;
   margin-top:-66px;
   box-shadow:border-box;
   box-shadow: 0 8px 10px rgba(0, 0, 0, 0.1), 0 6px 20px rgba(0, 0, 0, 0.1);

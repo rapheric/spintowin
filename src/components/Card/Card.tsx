@@ -1,6 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
 import styled from '@emotion/styled';
-// import { keyframes } from '@emotion/react';
 import { faArrowRotateRight, faRotateLeft, faTrashCan, faPlay,faCoins } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Navbar from '../Nav/Nav';
@@ -15,8 +14,11 @@ import imageUrlFire from '../../assets/download.svg';
 import imageUrlWin from '../../assets/spin2win-dolly (3).svg';
 import imageUrlCold from '../../assets/download (1).svg'
 import imageUrlLion from '../../assets/spin2win-royale-lion.c24f2de95fb5e09bb485 (1).svg'
-
 import SpinnerWheel from "../SpinnerWheel/SpinnerWheel";
+
+interface LionProps {
+ variant?:'right' | 'left'
+}
 
 interface DivProps {
     variant?: 'primary' | 'secondary';
@@ -95,6 +97,7 @@ const Card: React.FC = () => {
         } else if (!spinning && intervalRef.current) {
             clearInterval(intervalRef.current);
             setCurrentNumber(generatedNumber);
+            setGeneratedNumber(generatedNumber)
         }
         return () => {
             if (intervalRef.current) {
@@ -114,7 +117,6 @@ const Card: React.FC = () => {
             setOpenOption(false);
             setWonOpenOption(true);
             setGeneratedRandomNumbers([...generatedRandomNumbers, randomNumber]);
-            //resetRandomNumberOccurrences();
             setPreviousPlacedBets(placedBets.slice())
         }, 10000);
 
@@ -560,28 +562,12 @@ const Card: React.FC = () => {
                         .map(c => c.BetAmount * getOptionOdd(c.Option))
                         .reduce((sum, current) => sum + current);
                     setPayOutAmount(payoutAmount)
-
                 }
                 break;
-
-
-
         }
-
         console.log('Payut amount', payoutAmount);
-
         setResult(hasWon ? 'win' : 'lose');
     };
-
-
-    //   useEffect(() => {
-    //     const timeoutId = setTimeout(() => {
-    //       setWonOpenOption(true);
-    //     }, 10050);
-
-
-    //     return () => clearTimeout(timeoutId);
-    //   }, []); 
 
     useEffect(() => {
         const timeoutId = setTimeout(() => {
@@ -602,7 +588,6 @@ const Card: React.FC = () => {
     }, [openCoinOption]);
 
     const setPlacedAmont = () => {
-        // let placedBetAmount = 0;
         let amount = 0;
         placedBets.forEach(x => {
             amount += x.BetAmount;
@@ -611,9 +596,6 @@ const Card: React.FC = () => {
         if (placedBetAmount < 1000) {
             setPlacedBetAmount(amount)
           }
-       
-
-        // setPlacedBetAmount(amount)
     }
 
     const getShowBorder = (n: number) => {
@@ -858,7 +840,6 @@ const Card: React.FC = () => {
                 hasWon = (s === '36' || s === 'even' ||
                     s === 'red' || s === 'range2536' || s === 'high');
                 break;
-
         }
         return hasWon;
     }
@@ -868,7 +849,6 @@ const Card: React.FC = () => {
     }
 
     const handleSelected = (option: string) => {
-        // setOpenCoinOption(!openCoinOption)
         if (placedBetAmount < 1000) {
             handleSelectOption(option)
             setSelectedOption(selectedOption)
@@ -876,11 +856,8 @@ const Card: React.FC = () => {
                 Option: option,
                 BetAmount: betAmount
             });
-    
-          }
-       
-        setPlacedAmont();
-        console.log(placedBets);
+         }
+         setPlacedAmont();
     }
 
     const deleteSelected = () => {
@@ -891,7 +868,6 @@ const Card: React.FC = () => {
         setResult(null)
         setOpenOption(false)
         setPayOutAmount(0)
-        // setGeneratedRandomNumbers([])
     };
 
     const handleDouble = () => {
@@ -906,9 +882,6 @@ const Card: React.FC = () => {
             placedBets.pop() as PlacedBet;
             setPlacedAmont();
         }
-
-        console.log(placedBets);
-
     };
 
     const rebet = () => {
@@ -1505,7 +1478,7 @@ const Card: React.FC = () => {
                             </ListItems>
                         </ContDiv>
                         <ContDivLL>
-                            <Lion> <ImageLion src={imageUrlLion} /> </Lion>
+                            <Lion> <ImageLion variant = 'left' src={imageUrlLion} /> </Lion>
                             <NumberItems blink={getBlinkState('low')}
                                 onClick={() => {
                                     handleSelected('low');
@@ -1584,7 +1557,7 @@ const Card: React.FC = () => {
                                  </CoinIcon><Coin>{betAmount}</Coin></Coins>) : ''}
                                 {(placedBets.findIndex(x => x.Option === 'high') !== -1) ? (<Image src={getDisplayImage('high')} />) : 'HIGH'}
                             </NumberItems>
-                            <Lion> <ImageLionR src={imageUrlLion} /> </Lion>
+                            <Lion> <ImageLion  variant = 'right' src={imageUrlLion} /> </Lion>
                         </ContDivLL>
 
                     </CardContainer>
@@ -1654,24 +1627,18 @@ const Card: React.FC = () => {
               {<div>
                 {result === 'win' ?
                     wonOpenOption &&
-
-                    <Won>
+                  <Won>
                         <h1>You Won</h1> <br />
                         <h1>Ksh{payoutAmount}</h1>
                     </Won> : <div></div>
                 }
             </div>}
-
-
-        </>
+ </>
     )
 }
 const CoinIcon = styled.span`
 font-size:15px;
 color:white;
-// position:absolute;
-// top:10%;
-// left:60%;
 `
 const Coins = styled.div`
 display:flex;
@@ -1680,7 +1647,6 @@ position:absolute;
 top:0%;
 left:30%;
 `
-
 const Coin = styled.div`
 color:black;
 font-size:14px;
@@ -1692,11 +1658,7 @@ width:30px;
 height:30px;
 background:blue;
 border-radius:6px;
-// position:absolute;
-// top:0%;
-// left:30%;
 `
-
 const Top = styled.div`
 display:flex;
 gap:0px;
@@ -1756,23 +1718,17 @@ right:-5%;
 bottom:-5%;
 z-index:2;
 `
-const ImageLion = styled.img`
+const ImageLion = styled.img<LionProps>`
  object-repeat:no-repeat;
  width:70px;
  height:100px;
  position: absolute;
  margin-right:0px;
  position:absolute;
-top:195px;
+ top:195px;
+ transform: ${({ variant }) => (variant === 'right' ? 'scaleX(-1)' : 'scaleX(1)')};
 `;
-const ImageLionR = styled.img`
-position:absolute;
-top:195px;
- object-repeat:no-repeat;
- width:70px;
- height:100px;
-transform: scaleX(-1);
-`;
+
 const ImageWin = styled.img`
  overflow:hidden;
  object-repeat:no-repeat;
@@ -1782,15 +1738,12 @@ const ImageWin = styled.img`
 const Lion = styled.div`
 background-color:brown;
  object-repeat:no-repeat;
-//  position: absolute;
  width: 75px;
  height: 110px;
-//  margin-top: 272px;
  background: no-repeat;
  opacity: .8;
  overflow:hidden;
 `
-
 const ListStyles = styled.li<DivProps>`
    position:relative;
    background-color: ${({ variant }) => (variant === 'primary' ? 'red' : 'black')};
@@ -1905,10 +1858,10 @@ display:flex;
 flex-direction:column;
 justify-content:space-between;
 align-items:center;
-    position: relative;
-    top: -30px;
-    width: 134px;
-    font-family: Roboto;
+ position: relative;
+ top: -30px;
+ width: 134px;
+ font-family: Roboto;
 }
 `
 const NumberItems = styled.li<ListProps>`
@@ -1960,12 +1913,10 @@ const StyledButton = styled.button`
   margin-bottom: 12px;
   font-size: 14px;
   font-weight: 900;
-//  color: #1967ff;
   text-transform: none;
   cursor: pointer;
  background-color:light-gray;
   border-radius: 50%;
-//   -webkit-box-shadow: 0 0 5px 0 rgba(0, 0, 0, .1), 0 5px 5px 0 rgba(0, 0, 0, .2);
   box-shadow: 0 0 5px 0 rgba(0, 0, 0, .1), 0 5px 5px 0 rgba(0, 0, 0, .2);
 `;
 
@@ -1974,13 +1925,11 @@ const FooterContainer = styled.footer`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  // min-height: 70px;
   padding: 10px;
   color: #fff;
-  // background-color: #013b93;
   margin-top:20px;
   margin-right:53px;
-  height: 80px;
+  height: 66px;
   background-color: #192348;
 
   @media (max-width: 768px) {
@@ -2065,10 +2014,10 @@ flex-basis: 16.66666667%;
 max-width: 16.66666667%;
   display: flex;
   align-items: center;
-  gap:18px;
+  gap:16px;
   flex-direction: column;
   width:53px:
-  height:70px;
+  height:64px;
   background-color:#192348;
   outline:none;
   border:none;
@@ -2103,7 +2052,6 @@ const Won = styled.div`
         width: 380px;
         height: 380px;
         margin:1em auto;
-        // border: 2px solid whitesmoke;
         background-color:#90EE90;
         padding: 0;
         color:white;
