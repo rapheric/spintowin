@@ -40,8 +40,8 @@ interface DiamondProps {
     width: number;
     height: number;
 }
-interface Max{
-    placedBetAmount?:number;
+interface MaxProps{
+    placedBetAmount?:number;  
 }
 
 const Card: React.FC = () => {
@@ -1734,7 +1734,7 @@ const Image = styled.img<ImageProps>`
 
 const ImageH = styled.img`
 width:30px;
- height:30px;
+height:30px;
 position:absolute;
 right:-20%;
 bottom:-20%;
@@ -1742,7 +1742,7 @@ z-index:2;
 `
 const PopImg = styled.img`
 width:30px;
- height:30px;
+height:30px;
 position:absolute;
 right:-5%;
 bottom:-20%;
@@ -1758,19 +1758,21 @@ z-index:2;
 `
 const ImageLion = styled.img`
  object-repeat:no-repeat;
- width:60px;
- height:90px;
+ width:70px;
+ height:100px;
  position: absolute;
  margin-right:0px;
+top:197px;
 `;
 const ImageLionR = styled.img`
+position:absolute;
+top:197px;
  object-repeat:no-repeat;
- width:60px;
- height:90px;
+ width:70px;
+ height:100px;
 transform: scaleX(-1);
 `;
 const ImageWin = styled.img`
-// object-fit:cover;
  overflow:hidden;
  object-repeat:no-repeat;
  width:50px;
@@ -1780,8 +1782,8 @@ const Lion = styled.div`
 background-color:brown;
  object-repeat:no-repeat;
 //  position: absolute;
- width: 65px;
- height: 100px;
+ width: 75px;
+ height: 110px;
 //  margin-top: 272px;
  background: no-repeat;
  opacity: .8;
@@ -2001,12 +2003,13 @@ text-transform: none;
 
 const BalanceTitle = styled.div`
     padding-bottom: 5px;
-    font-size: 11px;
+    font-size: 12px;
     line-height: 13px;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     color: #4a4a4a;
+    font-weight:500;
 `;
 
 
@@ -2053,9 +2056,10 @@ const OuterDiv = styled.div`
   display: flex;
   justify-content: space-between;
   items: center;
+
 `;
 
-const InnerDiv = styled.button<Max>`
+const InnerDiv = styled.button<MaxProps>`
 flex-basis: 16.66666667%;
 max-width: 16.66666667%;
   display: flex;
@@ -2067,8 +2071,7 @@ max-width: 16.66666667%;
   background-color:#192348;
   outline:none;
   border:none;
-
-
+  cursor:pointer;
 `;
 
 const Span = styled.span`

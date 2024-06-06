@@ -133,7 +133,7 @@ const WheelWrapper = styled.div`
 `;
 
 const Pointer = styled.div`
-  position: absolute ;
+  position: fixed ;
   top: 40%;
   left: 50%;
   width: 10;
@@ -152,15 +152,15 @@ const Button = styled.button`
   color:white;
   font-weight:500;
   cursor: pointer;
-  position: absolute;
-  top: 40%;
-  left: 40%;
+  position: fixed;
+  top: 30%;
+  left: 30%;
   z-index: 1;
-  width:100px;
-  height:100px;
+  width:200px;
+  height:200px;
   border-radius:50%;
-  background-color:black;
-
+  background-color:green;
+ 
 `;
 
 export default SpinnerWheel;
