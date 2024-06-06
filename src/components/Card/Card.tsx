@@ -1703,6 +1703,7 @@ gap:0px;
 `
 const ContDiv = styled.div`
 display:flex;
+border-top:1px solid white;
 `
 const ContDivLL = styled.div`
 display:flex;
@@ -1766,7 +1767,7 @@ top:197px;
 `;
 const ImageLionR = styled.img`
 position:absolute;
-top:197px;
+top:199px;
  object-repeat:no-repeat;
  width:70px;
  height:100px;
@@ -1831,13 +1832,15 @@ position:relative;
   align-items: center;
   justify-content: center;
   color:white;
-  width :220px;
+  width :218px;
   height: 50px;
   font-size: 20px;
   list-style:none;
   margin-top:0px;
   margin:0px;
-   border: 2px solid white;
+   border: 3px solid white;
+   border-right: 1px solid white;
+   border-top: 1px solid white;
    ${({ blink }) => (blink ?
         ` animation: blink-animation 1.2s 3;
     animation-delay: 0.5s;
@@ -1858,8 +1861,8 @@ const ZeroItem = styled.li<ListProps>`
 position :relative;
   align-self: flex-start;
   color:white;
-  width : 50px;
-  height: 163px;
+  width : 53px;
+  height: 166px;
   font-size: 20px;
   list-style:none;
   margin-top:0px;
@@ -1877,7 +1880,7 @@ position :relative;
      }
    }`
         : ``)}    
-   border: 2px solid white;
+   border: 3px solid white;
    &:hover {
     border:2px solid yellow;
     background-color:#A9A9A9;
@@ -1918,7 +1921,8 @@ const NumberItems = styled.li<ListProps>`
   color: #fff;
   gap:0px;
   width :108px;
-  border: 2px solid white;
+  border: 3px solid white;
+  border-right: 1px solid white;
   ${({ blink }) => (blink ?
         ` animation: blink-animation 1.2s 3;
     animation-delay: 0.5s;
